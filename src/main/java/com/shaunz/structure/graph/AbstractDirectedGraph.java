@@ -146,6 +146,9 @@ public abstract class AbstractDirectedGraph<T> implements Graph<T>, Serializable
 
         vertices.keySet().stream().forEach(t ->{
             Vertex<T> frontVertex = vertices.get(t);
+            if(!oppositedVertices.containsKey(frontVertex.getLabel())){
+                oppositedVertices.put(frontVertex.getLabel(),new VertexImpl<>(frontVertex.getLabel()));
+            }
             frontVertex.getNeighborIterator().forEachRemaining(backVertex -> {
                 Vertex<T> newFrontVertex;
                 Double weight = frontVertex.getWeigh2Neighbor(backVertex);
@@ -164,15 +167,17 @@ public abstract class AbstractDirectedGraph<T> implements Graph<T>, Serializable
         return oppositeGraph;
     }
 
-    protected Graph<T> createNewGraph(Map<T,Vertex<T>> vertices){
+    private Graph<T> createNewGraph(Map<T,Vertex<T>> vertices){
         GraphFactory graphFactory = GraphFactoryImpl.getInstance();
-        graphFactory.build(graphFactory.getGraphType(this.getClass()));
-        Graph<T> graph = new DirectedAroundWeightGraph<>();
+        Graph<T> graph = graphFactory.build(graphFactory.getGraphType(this.getClass()));
         graph.setVertices(vertices);
         return graph;
     }
 
     public Map<Vertex<T>, List<Vertex<T>>> getStrongComponents() {
+        Graph<T> oppositeGraph = this.oppositeDirection();
+        Stack<T> oppositeTypologyOrder = oppositeGraph.getTopologySort();
+        LinkedList<Vertex<T>> stack = new LinkedList<Vertex<T>>();
         return null;
     }
 

@@ -8,9 +8,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DirectedGraph<T> extends AbstractDirectedGraph<T> {
     private static final long serialVersionUID = -1190160436962485575L;
 
-    protected Map<T, Vertex<T>> vertices;
-    protected AtomicInteger edgeCount = new AtomicInteger(0);
-
     public DirectedGraph(){
         vertices = new LinkedHashMap<T, Vertex<T>>();
     }
@@ -23,7 +20,7 @@ public class DirectedGraph<T> extends AbstractDirectedGraph<T> {
         Vertex<T> endVertex = vertices.get(end);
 
         if(beginVertex != null && endVertex != null);
-        result = beginVertex.connect(endVertex,1.0);
+            result = beginVertex.connect(endVertex,1.0);
         if(result)
             edgeCount.getAndIncrement();
         return result;

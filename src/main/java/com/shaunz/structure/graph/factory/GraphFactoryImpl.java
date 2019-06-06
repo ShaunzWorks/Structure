@@ -8,13 +8,14 @@ import java.util.Map;
 
 public class GraphFactoryImpl<T> implements  GraphFactory<T>{
     private static GraphFactoryImpl ourInstance = new GraphFactoryImpl();
-    private static Map<GraphType,String> graphTypes = new HashMap<>();
+    private static Map<GraphType,String> graphTypes;
 
     public static GraphFactoryImpl getInstance() {
         return ourInstance;
     }
 
     private GraphFactoryImpl() {
+        graphTypes = new HashMap<>();
         graphTypes.put(GraphType.DIRECTED_GRAPH,"com.shaunz.structure.graph.DirectedGraph");
         graphTypes.put(GraphType.DIRECTED_WEIGHT_GRAPH,"com.shaunz.structure.graph.DirectedWeightGraph");
         graphTypes.put(GraphType.DIRECTED_AROUND_WEIGHT_GRAPH,"com.shaunz.structure.graph.DirectedAroundWeightGraph");
@@ -41,7 +42,7 @@ public class GraphFactoryImpl<T> implements  GraphFactory<T>{
         Iterator<GraphType> graphTypeKeys = graphTypes.keySet().iterator();
         while (graphTypeKeys.hasNext()){
             graphType = graphTypeKeys.next();
-            if(graphTypes.get(graphTypeKeys.next()).equals(clazzName)){
+            if(graphTypes.get(graphType).equals(clazzName)){
                 break;
             }
         }
