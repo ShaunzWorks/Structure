@@ -1,4 +1,4 @@
-package com.shaunz.structure.graph.Factory;
+package com.shaunz.structure.graph.factory;
 
 import com.shaunz.structure.graph.Graph;
 

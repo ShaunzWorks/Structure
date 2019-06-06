@@ -1,7 +1,7 @@
 package com.shaunz.structure.graph;
 
-import com.shaunz.structure.graph.Factory.GraphFactory;
-import com.shaunz.structure.graph.Factory.GraphFactoryImpl;
+import com.shaunz.structure.graph.factory.GraphFactory;
+import com.shaunz.structure.graph.factory.GraphFactoryImpl;
 import com.shaunz.structure.graph.edge.EdgeImpl;
 import com.shaunz.structure.graph.vertex.Vertex;
 import com.shaunz.structure.graph.vertex.VertexImpl;
