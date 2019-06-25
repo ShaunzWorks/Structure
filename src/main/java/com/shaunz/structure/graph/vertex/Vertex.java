@@ -3,6 +3,7 @@ package com.shaunz.structure.graph.vertex;
 import com.shaunz.structure.graph.edge.Edge;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *  _____   _   _       ___   _   _   __   _   ______  _          __  _____   _____    _   _
@@ -28,6 +29,16 @@ public interface Vertex<T> {
     Double getWeight();
 
     Integer getNeighborsCnt();
+
+    boolean isSingleVertex();
+
+    void clearVisitedNeighbors();
+
+    void addVisitedNeighbor(Vertex<T> neighbor);
+
+    List<Vertex<T>> getVisitedNeighbors();
+
+    void unVisiteAllNeighbor();
 
     /**
      * Visit this vertex

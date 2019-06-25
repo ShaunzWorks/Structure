@@ -4,9 +4,8 @@ import com.shaunz.structure.graph.vertex.Vertex;
 
 import java.util.*;
 
-public class DirectedAroundWeightGraph<T> extends AbstractDirectedGraph<T> {
-
-    public DirectedAroundWeightGraph() {
+public class DirectedRingGraph<T> extends AbstractDirectedGraph<T>{
+    public DirectedRingGraph() {
         vertices = new LinkedHashMap<T, Vertex<T>>();
     }
 
@@ -39,34 +38,22 @@ public class DirectedAroundWeightGraph<T> extends AbstractDirectedGraph<T> {
      */
     @Override
     public Double getShortestPath(T begin, T end, Stack<T> path) {
-        resetVertices();
+        Graph<T> cloningGraph;
+        try {
+            cloningGraph = (Graph<T>)this.clone();
+            cloningGraph.init();
+        } catch (CloneNotSupportedException e){
+            return Double.POSITIVE_INFINITY;
+        }
+
         Queue<Vertex<T>> vertexQueue = new LinkedList<Vertex<T>>();
         Vertex<T> beginVertex = vertices.get(begin);
         Vertex<T> endVertex = vertices.get(end);
+        Set<T> avaliableVerte = new HashSet<>();
 
+        resetVertices();
         beginVertex.visit();
-        vertexQueue.offer(beginVertex);
-        while (!vertexQueue.isEmpty()){
-            Vertex<T> frontVertex = vertexQueue.poll();
-            Iterator<Vertex<T>> neighbors = frontVertex.getNeighborIterator();
-            while (neighbors.hasNext()){
-                Vertex<T> neighbor = neighbors.next();
-                if(neighbor.isVisited()){
-                    double toNeighborWeight = frontVertex.getCost()+frontVertex.getWeigh2Neighbor(neighbor);
-                    double currentMinWeight = neighbor.getCost();
-                    if(toNeighborWeight < currentMinWeight){
-                        neighbor.setPredecessor(frontVertex);
-                        neighbor.setCost(toNeighborWeight);
-                    }
-                } else {
-                    neighbor.setPredecessor(frontVertex);
-                    neighbor.setCost(frontVertex.getCost() + frontVertex.getWeigh2Neighbor(neighbor));
-                }
 
-                vertexQueue.offer(neighbor);
-                neighbor.visit();
-            }
-        }
 
         path.push(endVertex.getLabel());
 
@@ -78,5 +65,4 @@ public class DirectedAroundWeightGraph<T> extends AbstractDirectedGraph<T> {
 
         return endVertex.getCost();
     }
-
 }

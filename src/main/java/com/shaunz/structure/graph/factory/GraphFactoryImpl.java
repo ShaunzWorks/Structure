@@ -2,27 +2,18 @@ package com.shaunz.structure.graph.factory;
 
 import com.shaunz.structure.graph.Graph;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-public class GraphFactoryImpl<T> implements  GraphFactory<T>{
+public class GraphFactoryImpl<T> implements  GraphFactory{
     private static GraphFactoryImpl ourInstance = new GraphFactoryImpl();
-    private static Map<GraphType,String> graphTypes;
 
     public static GraphFactoryImpl getInstance() {
         return ourInstance;
     }
 
     private GraphFactoryImpl() {
-        graphTypes = new HashMap<>();
-        graphTypes.put(GraphType.DIRECTED_GRAPH,"com.shaunz.structure.graph.DirectedGraph");
-        graphTypes.put(GraphType.DIRECTED_WEIGHT_GRAPH,"com.shaunz.structure.graph.DirectedWeightGraph");
-        graphTypes.put(GraphType.DIRECTED_AROUND_WEIGHT_GRAPH,"com.shaunz.structure.graph.DirectedAroundWeightGraph");
     }
 
-    public Graph<T> build(GraphType graphType) {
-        String className = graphTypes.get(graphType);
+    public <T> Graph<T> build(GraphType graphType) {
+        String className = graphType.className;
         Object newInstance = null;
         try {
             newInstance = getClass(className).newInstance();
@@ -39,11 +30,10 @@ public class GraphFactoryImpl<T> implements  GraphFactory<T>{
     public GraphType getGraphType(Class clazz) {
         GraphType graphType = null;
         String clazzName = clazz.getName();
-        Iterator<GraphType> graphTypeKeys = graphTypes.keySet().iterator();
-        while (graphTypeKeys.hasNext()){
-            graphType = graphTypeKeys.next();
-            if(graphTypes.get(graphType).equals(clazzName)){
-                break;
+        GraphType[] graphTypes = GraphFactory.GraphType.values();
+        for (int i=0,size=graphTypes.length; i < size; i++){
+            if(graphTypes[i].className.equals(clazzName)){
+                graphType = graphTypes[i];
             }
         }
         return graphType;

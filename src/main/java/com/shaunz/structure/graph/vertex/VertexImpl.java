@@ -4,10 +4,7 @@ import com.shaunz.structure.graph.edge.Edge;
 import com.shaunz.structure.graph.edge.EdgeImpl;
 
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  *  _____   _   _       ___   _   _   __   _   ______  _          __  _____   _____    _   _
@@ -30,12 +27,14 @@ public class VertexImpl<T> implements Vertex<T>, Serializable {
 
     private T label;
     private List<Edge<T>> edgeImplList;
-    private Double weight;
+    private Double weight = 0.0;
+    private boolean singleVertex = true;
 
     /*****************/
     private boolean visited;
     private Vertex<T> previousVertex;
     private Double cost;
+    private List<Vertex<T>> visitedNeighbors = new ArrayList<>();
     /*****************/
 
     public VertexImpl(T vertexLabel){
@@ -61,11 +60,32 @@ public class VertexImpl<T> implements Vertex<T>, Serializable {
         this.cost = 0.0;
     }
 
+    public void clearVisitedNeighbors(){
+        this.visitedNeighbors.clear();
+    }
+
+    public void addVisitedNeighbor(Vertex<T> neighbor){
+        if(!visitedNeighbors.contains(neighbor)){
+            this.visitedNeighbors.add(neighbor);
+        }
+    }
+
+    public List<Vertex<T>> getVisitedNeighbors(){
+        return this.visitedNeighbors;
+    }
+
     public boolean addEdge(Edge<T> edge) {
         if(edgeImplList == null){
             edgeImplList = new LinkedList<>();
         }
         return edgeImplList.add(edge);
+    }
+
+    public void unVisiteAllNeighbor(){
+        Iterator<Vertex<T>> neighborIterator = getNeighborIterator();
+        while (neighborIterator.hasNext()){
+            neighborIterator.next().unVisit();
+        }
     }
 
     private class NeighborIterator implements  Iterator<Vertex<T>>{
@@ -184,6 +204,15 @@ public class VertexImpl<T> implements Vertex<T>, Serializable {
 
     public void setWeight(Double weight) {
         this.weight = weight;
+    }
+
+    public void setSingleVertex(boolean flag){
+        this.singleVertex = flag;
+    }
+
+    @Override
+    public boolean isSingleVertex() {
+        return singleVertex;
     }
 
     @Override

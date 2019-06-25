@@ -12,6 +12,7 @@ public interface Graph<T> {
     boolean addEdge(T begin, T end, Double edgeWeight);
     boolean addEdge(T begin, T end);
     void setVertices(Map<T, Vertex<T>> vertices);
+    Map<T, Vertex<T>> getVertices();
 
     /**
      * BFS
@@ -54,13 +55,13 @@ public interface Graph<T> {
      * Opposite direction for this graph
      * @return
      */
-    Graph<T> oppositeDirection();
+    Graph<T> getOppositeDirection();
 
     /**
      *
      * @return
      */
-    Map<Vertex<T>,List<Vertex<T>>> getStrongComponents();
+    Map<T,Integer> getStrongComponents();
 
     Double traverse(Vertex<T>... vertexes);
 
@@ -68,4 +69,6 @@ public interface Graph<T> {
      * Reset some parameters in vertex list
      */
     void resetVertices();
+
+    void init();
 }
