@@ -3,13 +3,24 @@ package com.shaunz.structure.graph.factory;
 import com.shaunz.structure.graph.Graph;
 
 public class GraphFactoryImpl<T> implements  GraphFactory{
-    private static GraphFactoryImpl ourInstance = new GraphFactoryImpl();
+    private static volatile GraphFactoryImpl ourInstance;
 
     public static GraphFactoryImpl getInstance() {
+        if(ourInstance == null){
+            synchronized (GraphFactoryImpl.class){
+                if(ourInstance == null){
+                    ourInstance = new GraphFactoryImpl();
+                }
+            }
+        }
+
         return ourInstance;
     }
 
     private GraphFactoryImpl() {
+        if(ourInstance != null){
+            throw  new RuntimeException("This is a singleton");
+        }
     }
 
     public <T> Graph<T> build(GraphType graphType) {
