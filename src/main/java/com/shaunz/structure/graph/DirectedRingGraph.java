@@ -20,7 +20,7 @@ public class DirectedRingGraph<T> extends AbstractDirectedGraph<T>{
             this.vertices.put(from,new VertexImpl<>(from));
         }
         if(!this.vertices.containsKey(to)){
-            this.vertices.put(from,new VertexImpl<>(to));
+            this.vertices.put(to,new VertexImpl<>(to));
         }
         return addEdge(from,to);
     }
